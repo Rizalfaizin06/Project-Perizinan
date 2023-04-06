@@ -13,7 +13,7 @@
     <?php endif; ?> -->
 
 
-    <form method="post" action="<?= base_url() ?>/dashboard/perizinan">
+    <form method="post" action="<?= base_url() ?>dashboard/confirmation_waiting">
 
         <label for="waktuMulai">Waktu Mulai :</label>
         <select id="waktuMulai" name="waktuMulai" required>

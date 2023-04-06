@@ -10,6 +10,9 @@ class Auth extends CI_Controller
     public function login()
     {
         $data['error'] = '';
+        if ($this->session->userdata('user_id')) {
+            redirect('Dashboard');
+        }
         if ($this->input->post('login')) {
             $username = $this->input->post('username');
             $password = $this->input->post('password');
@@ -17,6 +20,7 @@ class Auth extends CI_Controller
             if ($user) {
                 $this->session->set_userdata('user_id', $user->id);
                 $this->session->set_userdata('user_role', $user->role);
+                $this->session->set_userdata('user_uuid', $user->uuid);
                 redirect('Dashboard');
             } else {
                 $data['error'] = 'Username atau password salah';
