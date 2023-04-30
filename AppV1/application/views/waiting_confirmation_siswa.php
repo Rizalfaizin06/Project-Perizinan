@@ -83,6 +83,7 @@
             $.ajax({
                 url: "<?php echo base_url(); ?>ajax/get_status_konfirmasi",
                 type: "post",
+                data: { id: idDetail },
                 success: function (response) {
                     console.log(response);
                     $("#allContent").html(response);

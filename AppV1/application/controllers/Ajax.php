@@ -26,9 +26,9 @@ class Ajax extends CI_Controller
 
     public function get_status_konfirmasi()
     {
-        $status = $this->Perizinan_model->get_status_konfirmasi();
-        $data['konfirmasiBK'] = $status->konfirmasiBK;
-        $data['konfirmasiWakel'] = $status->konfirmasiWakel;
+        $id = $this->input->post('id');
+
+        $data['status'] = $this->Perizinan_model->get_status_konfirmasi($id);
         $this->load->view('ajax/status_perizinan', $data);
 
     }

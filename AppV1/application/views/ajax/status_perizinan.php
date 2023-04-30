@@ -12,10 +12,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </head>
 
 <body>
-    <?php var_dump($konfirmasiBK); ?>
     <div id="container">
         <h1>
-            <?= $konfirmasiBK; ?>
+            <!-- <?= $konfirmasiBK; ?>
             <?= $konfirmasiWakel; ?>
             <?php
             if ($konfirmasiBK == 1 && $konfirmasiWakel == 1) {
@@ -27,9 +26,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
             } else {
                 echo "Menunggu Konfirmasi";
             }
-            ?>
+            ?> -->
         </h1>
+        <label for="waktuMulai">Waktu Mulai :</label>
+        <input type="text" name="waktuMulai" disabled value="<?= $status->waktuMulai; ?>">
+        <br>
 
+        <label for="waktuSelesai">Waktu Selesai :</label>
+        <input id="waktuSelesai" name="waktuSelesai" disabled value="<?= $status->waktuSelesai; ?>">
+
+        <br>
+
+        <label>Alasan :</label>
+        <input id="waktuSelesai" name="alasan" disabled value="<?= $status->alasan; ?>">
+        <br>
+
+        <label>Konfirmasi BK :</label>
+        <input id="waktuSelesai" name="alasan" disabled value="<?= $status->konfirmasiBK; ?>">
+        <br>
+
+        <label>Konfirmasi Wali Kelas :</label>
+        <input id="waktuSelesai" name="alasan" disabled value="<?= $status->konfirmasiWakel; ?>">
+        <br>
     </div>
 
 </body>

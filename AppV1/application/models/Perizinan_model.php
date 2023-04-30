@@ -6,6 +6,32 @@ class Perizinan_model extends CI_Model
         parent::__construct();
     }
 
+    public function add_izin($uuid, $waktuMulai, $waktuSelesai, $alasan)
+    {
+        $data = array(
+            'uuid' => $uuid,
+            'waktuMulai' => $waktuMulai,
+            'waktuSelesai' => $waktuSelesai,
+            'alasan' => $alasan,
+            'konfirmasiBK' => '0',
+            'konfirmasiWakel' => '0',
+            'waktuKeluar' => '2023-04-30 11:52:20.000000',
+            'waktuMasuk' => '2023-04-30 11:52:20.000000',
+            'reject' => '0',
+            'createdAt' => date('Y-m-d H:i:s')
+        );
+
+        if ($this->db->insert('tbl_perizinan', $data)) {
+            // Registrasi berhasil
+            return true;
+        } else {
+            // Registrasi gagal
+            return false;
+        }
+
+
+    }
+
     public function get_kbm()
     {
         $result = $this->db->get('tbl_kbm');
@@ -23,24 +49,25 @@ class Perizinan_model extends CI_Model
         return $result;
     }
 
-    public function get_status_konfirmasi()
+    public function get_status_konfirmasi($id)
     {
-        $uuid = $this->session->userdata('user_uuid');
-        $this->db->select('konfirmasiBK, konfirmasiWakel');
+        $this->db->select('*');
         $this->db->from('tbl_perizinan');
-        $this->db->where('uuid', $uuid);
+        $this->db->where('id', $id);
         $this->db->order_by('id', 'DESC');
         $this->db->limit(1);
         $result = $this->db->get()->row();
         return $result;
     }
 
-    public function get_all_izin()
+    public function get_all_izin($uuid)
     {
         $this->db->select('*');
         $this->db->from('tbl_perizinan');
+        $this->db->where('uuid', $uuid);
         $this->db->order_by('id', 'DESC');
-        $result = $this->db->get()->result();
+        $result = $this->db->get()
+        ;
         // $result = $this->db->get('tbl_perizinan');
         return $result;
     }
@@ -56,23 +83,45 @@ class Perizinan_model extends CI_Model
         return $result;
     }
 
-    public function get_all_izin_wakel()
+    public function get_all_izin_wakel($uuid)
     {
         $this->db->select('*');
-        $this->db->from('tbl_perizinan');
-        $this->db->where('konfirmasiWakel', 0);
-        $this->db->order_by('id', 'DESC');
+        $this->db->from('tbl_perizinan as P');
+        $this->db->join('tbl_siswa as S', 'P.uuid = S.uuid');
+        $this->db->join('tbl_wali_kelas as W', 'W.kelas = S.kelas');
+        $this->db->where('W.uuid', $uuid);
+
         $result = $this->db->get()->result();
+
+        // $this->db->select('*');
+        // $this->db->from('tbl_perizinan');
+        // $this->db->where('konfirmasiWakel', 0);
+        // $this->db->order_by('id', 'DESC');
+        // $result = $this->db->get()->result();
         // $result = $this->db->get('tbl_perizinan');
         return $result;
     }
 
-    public function get_izin($uuid)
+    public function get_izin($uuid, $rowno, $rowperpage, $search = "")
     {
         $this->db->select('*');
         $this->db->from('tbl_perizinan');
         $this->db->where('uuid', $uuid);
+
+        // $this->db->like('nama', $search);
         $this->db->order_by('id', 'DESC');
+        $result = $this->db->limit($rowperpage, $rowno)->get();
+        // $result = $this->db->get('tbl_perizinan');
+
+        return $result;
+    }
+
+    public function get_izin_byId($id)
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_perizinan');
+        $this->db->where('id', $id);
+
         $this->db->limit(1);
         $result = $this->db->get()->row();
         // $result = $this->db->get('tbl_perizinan');
@@ -96,4 +145,22 @@ class Perizinan_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->update('tbl_perizinan');
     }
+
+    public function get_izin_count($search = "")
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_perizinan');
+        $this->db->like('uuid', $search);
+        $result = $this->db->count_all_results();
+
+        return $result;
+    }
+
+
+
+
+
+
+
+
 }
