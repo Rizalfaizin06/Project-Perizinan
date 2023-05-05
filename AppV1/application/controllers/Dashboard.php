@@ -33,15 +33,15 @@ class Dashboard extends CI_Controller
         $search = '';
 
         //--pagination--
-        $row_per_page = 20;
+        $row_per_page = 2;
 
         if ($row_no != 0) {
             $row_no = ($row_no - 1) * $row_per_page;
         }
         // Pagination Configuration
         // All record count
-        $config['total_rows'] = $this->Perizinan_model->get_izin_count($search);
-        $config['base_url'] = base_url() . 'dashboard/verifikasi';
+        $config['total_rows'] = $this->Perizinan_model->get_izin_count_siswa($uuidUser, $search);
+        $config['base_url'] = base_url() . 'dashboard/perizinan';
         $config['use_page_numbers'] = true;
         $config['per_page'] = $row_per_page;
 
@@ -51,13 +51,13 @@ class Dashboard extends CI_Controller
         $data['pagination'] = $this->pagination->create_links();
 
         // Get record
-        $data['users'] = $this->Perizinan_model->get_izin($uuidUser, $row_no, $row_per_page, $search);
+        $data['dataIzin'] = $this->Perizinan_model->get_izin($uuidUser, $row_no, $row_per_page, $search);
 
         $data['row'] = $row_no;
 
         $data['totalRow'] = $config['total_rows'];
 
-        $data['dataIzin'] = $this->Perizinan_model->get_all_izin($uuidUser);
+        // $data['dataIzin'] = $this->Perizinan_model->get_all_izin($uuidUser);
         $this->load->view('daftar_perizinan_siswa', $data);
     }
 
@@ -80,7 +80,7 @@ class Dashboard extends CI_Controller
             $search = '';
 
             //--pagination--
-            $row_per_page = 20;
+            $row_per_page = 2;
 
             if ($row_no != 0) {
                 $row_no = ($row_no - 1) * $row_per_page;
@@ -113,7 +113,7 @@ class Dashboard extends CI_Controller
             $search = '';
 
             //--pagination--
-            $row_per_page = 20;
+            $row_per_page = 2;
 
             if ($row_no != 0) {
                 $row_no = ($row_no - 1) * $row_per_page;
@@ -121,7 +121,7 @@ class Dashboard extends CI_Controller
             // Pagination Configuration
 
             // All record count
-            $config['total_rows'] = $this->Perizinan_model->get_izin_count($search);
+            $config['total_rows'] = $this->Perizinan_model->get_izin_count_wakel($uuid, $search)->total;
             $config['base_url'] = base_url() . 'dashboard/verifikasi';
             $config['use_page_numbers'] = true;
             $config['per_page'] = $row_per_page;

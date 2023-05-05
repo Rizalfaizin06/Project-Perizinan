@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="icon" href="<?= base_url() ?>dist/images/icons/logo.jpeg" type="image/icon type">
-    <title>Reuni Bukber SMKN 2 PWD</title>
+    <title>Sistem Perizinan SMKN 1 WIROSARI</title>
     <!-- <link rel="manifest" href="manifest.json"> -->
 </head>
 
@@ -24,12 +24,12 @@
         <div
             class="realtive h-64 w-full rounded-b-3xl bg-center cursor-pointer bg-no-repeat object-cover z-10 shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 grid grid-cols-3 justify-items-center place-content-evenly align-items-center px-5">
             <div class="h-28 col-span-2">
-                <h2 class="text-2xl font-bold font-poppins text-white">Admin</h2>
+                <h2 class="text-2xl font-bold font-poppins text-white">Siswa</h2>
                 <p class="text-lg font-bold font-poppins text-white">
-                    Reuni Akbar 2023
+                    Rizal faizin firdaus
                 </p>
                 <p class="text-lg font-bold font-poppins text-white">
-                    SMKN 2 PWD
+                    SMKN 1 WIROSARI
                 </p>
 
             </div>
@@ -64,10 +64,6 @@
                             Daftar Izin
                         </p>
                     </div>
-                </a>
-                <a href="<?= base_url('Export') ?>" target="_blank"
-                    class="col-span-2 px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 text-sm font-poppins font-bold text-white text-center">
-                    Download Rekap Kehadiran
                 </a>
                 <a href="<?php echo site_url('auth/logout'); ?>"
                     class="col-span-2 px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 text-sm font-poppins font-bold text-white text-center">

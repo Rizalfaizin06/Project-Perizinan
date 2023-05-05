@@ -104,7 +104,7 @@ class Perizinan_model extends CI_Model
         // $result = $this->db->get('tbl_perizinan');
 
 
-        $result = $this->db->query('SELECT * FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND W.uuid = "' . $uuid . '";');
+        $result = $this->db->query('SELECT * FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND W.uuid = "' . $uuid . '" LIMIT ' . $rowno . ' , ' . $rowperpage . ';');
 
         return $result;
     }
@@ -114,8 +114,7 @@ class Perizinan_model extends CI_Model
         $this->db->select('*');
         $this->db->from('tbl_perizinan');
         $this->db->where('uuid', $uuid);
-
-        // $this->db->like('nama', $search);
+        $this->db->like('id', $search);
         $this->db->order_by('id', 'DESC');
         $result = $this->db->limit($rowperpage, $rowno)->get();
         // $result = $this->db->get('tbl_perizinan');
@@ -157,8 +156,32 @@ class Perizinan_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('tbl_perizinan');
+
         $this->db->like('uuid', $search);
         $result = $this->db->count_all_results();
+
+        return $result;
+    }
+
+    public function get_izin_count_siswa($uuid, $search = "")
+    {
+        $this->db->select('*');
+        $this->db->from('tbl_perizinan');
+
+        $this->db->where('uuid', $uuid);
+        $this->db->like('uuid', $search);
+
+        $result = $this->db->count_all_results();
+
+        return $result;
+    }
+
+    public function get_izin_count_wakel($uuid, $search = "")
+    {
+        $result = $this->db->query('SELECT COUNT(*) total FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND W.uuid = "' . $uuid . '";');
+
+
+        $result = $result->row();
 
         return $result;
     }

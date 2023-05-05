@@ -27,7 +27,12 @@ class Ajax extends CI_Controller
     public function get_status_konfirmasi()
     {
         $id = $this->input->post('id');
+        if ($this->session->userdata('user_role') == "siswa") {
+            $data['role'] = "siswa";
+        } else {
+            $data['role'] = "";
 
+        }
         $data['status'] = $this->Perizinan_model->get_status_konfirmasi($id);
         $this->load->view('ajax/status_perizinan', $data);
 

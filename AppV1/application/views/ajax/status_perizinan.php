@@ -1,57 +1,59 @@
-<?php
-defined('BASEPATH') or exit('No direct script access allowed');
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>Welcome to CodeIgniter</title>
+<div id="container">
 
 
-</head>
+    <label for="waktuMulai">Waktu Mulai :</label>
+    <input name="waktuMulai" disabled value="<?= $status->waktuMulai; ?>">
+    <br>
 
-<body>
-    <div id="container">
+    <label for="waktuSelesai">Waktu Selesai :</label>
+    <input id="waktuSelesai" name="waktuSelesai" disabled value="<?= $status->waktuSelesai; ?>">
+    <br>
 
+    <label>Alasan :</label>
+    <input id="waktuSelesai" name="alasan" disabled value="<?= $status->alasan; ?>">
+    <br>
 
-        <label for="waktuMulai">Waktu Mulai :</label>
-        <input name="waktuMulai" disabled value="<?= $status->waktuMulai; ?>">
-        <br>
+    <label>BK :</label>
+    <input id="waktuSelesai" name="alasan" disabled
+        value="<?= ($status->konfirmasiBK == 0) ? 'Belum Dikonfirmasi' : 'Sudah Dikonfirmasi' ?>">
+    <br>
 
-        <label for="waktuSelesai">Waktu Selesai :</label>
-        <input id="waktuSelesai" name="waktuSelesai" disabled value="<?= $status->waktuSelesai; ?>">
-        <br>
+    <label>Wali Kelas :</label>
+    <input id="waktuSelesai" name="alasan" disabled
+        value="<?= ($status->konfirmasiWakel == 0) ? 'Belum Dikonfirmasi' : 'Sudah Dikonfirmasi' ?>">
+    <br>
 
-        <label>Alasan :</label>
-        <input id="waktuSelesai" name="alasan" disabled value="<?= $status->alasan; ?>">
-        <br>
+    <h1>
+        status :
+        <?php
+        if ($status->konfirmasiBK == 1 && $status->konfirmasiWakel == 1) {
+            echo " perizinan terverifikasi";
+        } elseif ($status->konfirmasiBK == 0 && $status->konfirmasiWakel == 1) {
+            echo " Belum Dikonfirmasi BK";
+        } elseif ($status->konfirmasiWakel == 0 && $status->konfirmasiBK == 1) {
+            echo " Belum Dikonfirmasi Wali Kelas";
+        } else {
+            echo " Menunggu Konfirmasi";
+        }
+        ?>
+    </h1>
+    <?php
+    if ($role == "siswa"): ?>
+        <script src="<?= base_url() ?>dist/js/qrcode.min.js"></script>
+        <div id="scanQR" class="pt-5 grid grid-cols-1 justify-items-center border-t-2">
+            <h3 class="font-poppins font-bold text-center">Scan QR untuk Verifikasi</h3>
 
-        <label>Konfirmasi BK :</label>
-        <input id="waktuSelesai" name="alasan" disabled
-            value="<?= ($status->konfirmasiBK == 0) ? 'Belum Dikonfirmasi' : 'Sudah Dikonfirmasi' ?>">
-        <br>
+            <div id="qrcode<?= $status->id ?>"
+                class="grid grid-cols-1 justify-items-center bg-white w-48 overflow-hidden p-3">
 
-        <label>Konfirmasi Wali Kelas :</label>
-        <input id="waktuSelesai" name="alasan" disabled
-            value="<?= ($status->konfirmasiWakel == 0) ? 'Belum Dikonfirmasi' : 'Sudah Dikonfirmasi' ?>">
-        <br>
+            </div>
+            <script>
+                var qr = new QRCode(document.getElementById("qrcode<?= $status->id ?>"), {
+                });
+                qr.makeCode("<?= $status->id ?>");
+            </script>
+        </div>
+    <?php endif;
+    ?>
 
-        <h1>
-            <?php
-            if ($status->konfirmasiBK == 1 && $status->konfirmasiWakel == 1) {
-                echo "perizinan terverifikasi";
-            } elseif ($status->konfirmasiBK == 0 && $status->konfirmasiWakel == 1) {
-                echo "Belum Dikonfirmasi BK";
-            } elseif ($status->konfirmasiWakel == 0 && $status->konfirmasiBK == 1) {
-                echo "Belum Dikonfirmasi Wali Kelas";
-            } else {
-                echo "Menunggu Konfirmasi";
-            }
-            ?>
-        </h1>
-
-    </div>
-</body>
-
-</html>
+</div>

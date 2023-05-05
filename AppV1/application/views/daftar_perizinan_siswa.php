@@ -9,25 +9,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="icon" href="<?= base_url() ?>dist/images/icons/logo.jpeg" type="image/icon type">
-    <title>Reuni Bukber SMKN 2 PWD</title>
+    <title>Sistem Perizinan SMKN 1 WIROSARI</title>
     <!-- <link rel="manifest" href="manifest.json"> -->
 </head>
 
 
-
 <body>
-
-
+    <!-- component -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <!-- style="background-image:url('<?= base_url() ?>dist/images/background/appbar_bg.png')" -->
     <div class="min-h-screen">
         <div
             class="realtive h-64 w-full rounded-b-3xl bg-center cursor-pointer bg-no-repeat object-cover z-10 shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 grid grid-cols-3 justify-items-center place-content-evenly align-items-center px-5">
             <div class="h-28 col-span-2">
-                <h2 class="text-2xl font-bold font-poppins text-white">Admin</h2>
+                <h2 class="text-2xl font-bold font-poppins text-white">Siswa</h2>
                 <p class="text-lg font-bold font-poppins text-white">
-                    Reuni Akbar 2023
+                    Rizal faizin firdaus
                 </p>
                 <p class="text-lg font-bold font-poppins text-white">
-                    SMKN 2 PWD
+                    SMKN 1 WIROSARI
                 </p>
 
             </div>
@@ -42,14 +43,20 @@
             </h2>
         </div> -->
         <div class="h-24 md:h-8 w-full px-3 pt-8 grid grid-cols-1 md:grid-cols-2 gap-3">
-            <a href="<?= base_url() ?>"
-                class="px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 w-fit">
+            <div class="grid grid-cols-2">
+                <a href="<?= base_url() ?>"
+                    class="px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 w-11/12 justify-self-start text-center">
 
 
-                <span class="text-sm font-poppins font-bold text-white">Home</span>
-            </a>
+                    <span class="text-sm text-center font-poppins font-bold text-white">Home</span>
+                </a>
+                <a href="<?= base_url("dashboard/add_perizinan") ?>"
+                    class="px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 w-11/12 justify-self-end text-center">
 
 
+                    <span class="text-sm text-center font-poppins font-bold text-white">Buat Izin</span>
+                </a>
+            </div>
             <div class="">
                 <form action="<?= base_url('dashboard/verifikasi') ?>" method="post">
                     <label for="default-search"
@@ -192,10 +199,8 @@
                                                 <div
                                                     class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                                                     <button data-modal-hide="defaultModal<?= $row->id; ?>" type="button"
-                                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I
-                                                        accept</button>
-                                                    <button data-modal-hide="defaultModal<?= $row->id; ?>" type="button"
-                                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
+                                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Close</button>
+
                                                 </div>
                                             </div>
                                         </div>
