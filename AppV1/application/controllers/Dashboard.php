@@ -71,15 +71,76 @@ class Dashboard extends CI_Controller
 
     }
 
-    public function verifikasi()
+    public function verifikasi($row_no = 0)
     {
 
         $uuid = $this->session->userdata('user_uuid');
         if ($this->session->userdata('user_role') == "bk") {
-            $data['izin'] = $this->Perizinan_model->get_all_izin_bk();
+            $data['error'] = '';
+            $search = '';
+
+            //--pagination--
+            $row_per_page = 20;
+
+            if ($row_no != 0) {
+                $row_no = ($row_no - 1) * $row_per_page;
+            }
+            // Pagination Configuration
+            // All record count
+            $config['total_rows'] = $this->Perizinan_model->get_izin_count($search);
+            $config['base_url'] = base_url() . 'dashboard/verifikasi';
+            $config['use_page_numbers'] = true;
+            $config['per_page'] = $row_per_page;
+
+            //initialize
+            $this->pagination->initialize($config);
+
+            $data['pagination'] = $this->pagination->create_links();
+
+            // Get record
+            $data['dataIzin'] = $this->Perizinan_model->get_all_izin_bk($row_no, $row_per_page, $search);
+
+            $data['row'] = $row_no;
+
+            $data['totalRow'] = $config['total_rows'];
+
+            // $data['dataIzin'] = $this->Perizinan_model->get_all_izin($uuidUser);
+            // $data['izin'] = $this->Perizinan_model->get_all_izin_bk();
             $this->load->view('verifikasi_perizinan_bk', $data);
         } elseif ($this->session->userdata('user_role') == "wali_kelas") {
-            $data['izin'] = $this->Perizinan_model->get_all_izin_wakel($uuid);
+
+            $data['error'] = '';
+            $search = '';
+
+            //--pagination--
+            $row_per_page = 20;
+
+            if ($row_no != 0) {
+                $row_no = ($row_no - 1) * $row_per_page;
+            }
+            // Pagination Configuration
+
+            // All record count
+            $config['total_rows'] = $this->Perizinan_model->get_izin_count($search);
+            $config['base_url'] = base_url() . 'dashboard/verifikasi';
+            $config['use_page_numbers'] = true;
+            $config['per_page'] = $row_per_page;
+
+            //initialize
+            $this->pagination->initialize($config);
+
+            $data['pagination'] = $this->pagination->create_links();
+
+            // Get record
+            $data['dataIzin'] = $this->Perizinan_model->get_all_izin_wakel($uuid, $row_no, $row_per_page, $search);
+
+            $data['row'] = $row_no;
+
+            $data['totalRow'] = $config['total_rows'];
+
+            // $data['dataIzin'] = $this->Perizinan_model->get_all_izin($uuidUser);
+            // $data['izin'] = $this->Perizinan_model->get_all_izin_bk();
+
             $this->load->view('verifikasi_perizinan_wakel', $data);
         } elseif ($this->session->userdata('user_role') == "satpam") {
             $this->load->view('verifikasi_perizinan_satpam');
@@ -139,11 +200,11 @@ class Dashboard extends CI_Controller
 
     public function update_confirmation()
     {
-        if ($this->input->post('confirm')) {
+        if ($this->input->post('Konfirmasi')) {
             $id = $this->input->post('id');
             $this->Perizinan_model->update_confirmation($id);
             redirect('dashboard/verifikasi');
-        } elseif ($this->input->post('reject')) {
+        } elseif ($this->input->post('Tolak')) {
             $id = $this->input->post('id');
             $this->Perizinan_model->reject_confirmation($id);
             redirect('dashboard/verifikasi');

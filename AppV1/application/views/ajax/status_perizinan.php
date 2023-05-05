@@ -13,28 +13,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <body>
     <div id="container">
-        <h1>
-            <!-- <?= $konfirmasiBK; ?>
-            <?= $konfirmasiWakel; ?>
-            <?php
-            if ($konfirmasiBK == 1 && $konfirmasiWakel == 1) {
-                echo "perizinan terverifikasi";
-            } elseif ($konfirmasiBK == 0 && $konfirmasiWakel == 1) {
-                echo "Belum Dikonfirmasi BK";
-            } elseif ($konfirmasiWakel == 0 && $konfirmasiBK == 1) {
-                echo "Belum Dikonfirmasi Wali Kelas";
-            } else {
-                echo "Menunggu Konfirmasi";
-            }
-            ?> -->
-        </h1>
+
+
         <label for="waktuMulai">Waktu Mulai :</label>
-        <input type="text" name="waktuMulai" disabled value="<?= $status->waktuMulai; ?>">
+        <input name="waktuMulai" disabled value="<?= $status->waktuMulai; ?>">
         <br>
 
         <label for="waktuSelesai">Waktu Selesai :</label>
         <input id="waktuSelesai" name="waktuSelesai" disabled value="<?= $status->waktuSelesai; ?>">
-
         <br>
 
         <label>Alasan :</label>
@@ -42,14 +28,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <br>
 
         <label>Konfirmasi BK :</label>
-        <input id="waktuSelesai" name="alasan" disabled value="<?= $status->konfirmasiBK; ?>">
+        <input id="waktuSelesai" name="alasan" disabled
+            value="<?= ($status->konfirmasiBK == 0) ? 'Belum Dikonfirmasi' : 'Sudah Dikonfirmasi' ?>">
         <br>
 
         <label>Konfirmasi Wali Kelas :</label>
-        <input id="waktuSelesai" name="alasan" disabled value="<?= $status->konfirmasiWakel; ?>">
+        <input id="waktuSelesai" name="alasan" disabled
+            value="<?= ($status->konfirmasiWakel == 0) ? 'Belum Dikonfirmasi' : 'Sudah Dikonfirmasi' ?>">
         <br>
-    </div>
 
+        <h1>
+            <?php
+            if ($status->konfirmasiBK == 1 && $status->konfirmasiWakel == 1) {
+                echo "perizinan terverifikasi";
+            } elseif ($status->konfirmasiBK == 0 && $status->konfirmasiWakel == 1) {
+                echo "Belum Dikonfirmasi BK";
+            } elseif ($status->konfirmasiWakel == 0 && $status->konfirmasiBK == 1) {
+                echo "Belum Dikonfirmasi Wali Kelas";
+            } else {
+                echo "Menunggu Konfirmasi";
+            }
+            ?>
+        </h1>
+
+    </div>
 </body>
 
 </html>

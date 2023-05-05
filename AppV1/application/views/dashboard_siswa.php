@@ -68,12 +68,10 @@
                 <a href="<?= base_url('Export') ?>" target="_blank"
                     class="col-span-2 px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 text-sm font-poppins font-bold text-white text-center">
                     Download Rekap Kehadiran
-
                 </a>
                 <a href="<?php echo site_url('auth/logout'); ?>"
                     class="col-span-2 px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 text-sm font-poppins font-bold text-white text-center">
                     Logout
-
                 </a>
                 <div class="h-36 w-full"></div>
             </div>
