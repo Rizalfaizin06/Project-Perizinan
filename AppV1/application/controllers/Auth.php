@@ -85,6 +85,8 @@ class Auth extends CI_Controller
                     $this->session->set_userdata('user_uuid', $user->uuid);
                     $this->session->set_userdata('user_nama', $user->nama);
                     $this->session->set_userdata('user_email', $user->email);
+                    $this->session->set_userdata('user_avatar', $user->avatar);
+
 
 
                     $nama = $user->nama;
@@ -143,6 +145,7 @@ class Auth extends CI_Controller
         $data['error'] = '';
         if ($this->input->post('btnChooseSiswa')) {
             $data['kelas'] = $this->Perizinan_model->get_kelas()->result();
+
             $this->load->view('registrasi_siswa', $data);
         } elseif ($this->input->post('btnChooseWakel')) {
             $data['kelas'] = $this->Perizinan_model->get_kelas()->result();
@@ -155,6 +158,7 @@ class Auth extends CI_Controller
             $this->load->view('registrasi_satpam', $data);
         } else {
             if ($this->input->post('registasi_siswa')) {
+
                 $username = htmlspecialchars(strtolower($this->input->post('username')));
                 $password = htmlspecialchars($this->input->post('password'));
                 $konfirmasiPassword = htmlspecialchars($this->input->post('konfirmasiPassword'));
@@ -181,19 +185,33 @@ class Auth extends CI_Controller
                         $data['error'] = 'User Sudah adda';
                         $this->load->view('registrasi_siswa', $data);
                     } else {
-                        $registrasi = $this->user_model->registrasi_siswa($uuid, $username, hash('sha256', $password), $nama, $email, $kelas);
-                        if ($registrasi == true) {
-                            $data['error'] = 'Registrasi Berhasil';
-                            $this->load->view('login', $data);
+                        $config['upload_path'] = FCPATH . 'dist/images/avatar';
+                        $config['allowed_types'] = 'gif|jpg|png';
+                        $config['max_size'] = 2048;
+                        $config['encrypt_name'] = TRUE;
+                        $this->load->library('upload', $config);
+
+                        if (!$this->upload->do_upload('avatar')) {
+                            $error = array('error' => $this->upload->display_errors());
+                            $this->load->view('registrasi_siswa', $error);
                         } else {
-                            $data['error'] = 'Registrasi Gagal';
-                            $this->load->view('registrasi_siswa', $data);
+                            $nama_avatar = htmlspecialchars($this->upload->data('file_name'));
+                            $registrasi = $this->user_model->registrasi_siswa($uuid, $username, hash('sha256', $password), $nama, $email, $nama_avatar, $kelas);
+                            if ($registrasi == true) {
+                                $data['error'] = 'Registrasi Berhasil';
+                                $this->load->view('login', $data);
+                            } else {
+                                $data['error'] = 'Registrasi Gagal';
+                                $this->load->view('registrasi_siswa', $data);
+                            }
                         }
                     }
                     // $data['error'] = "sdfgsdfgdfgdgsfsdg";
                     // $this->load->view('registrasi', $data);
                 }
+
             } elseif ($this->input->post('registasi_wakel')) {
+
                 $username = htmlspecialchars(strtolower($this->input->post('username')));
                 $password = htmlspecialchars($this->input->post('password'));
                 $konfirmasiPassword = htmlspecialchars($this->input->post('konfirmasiPassword'));
@@ -220,19 +238,33 @@ class Auth extends CI_Controller
                         $data['error'] = 'User Sudah adda';
                         $this->load->view('registrasi_wakel', $data);
                     } else {
-                        $registrasi = $this->user_model->registrasi_wakel($uuid, $username, hash('sha256', $password), $nama, $email, $kelas);
-                        if ($registrasi == true) {
-                            $data['error'] = 'Registrasi Berhasil';
-                            $this->load->view('login', $data);
+                        $config['upload_path'] = FCPATH . 'dist/images/avatar';
+                        $config['allowed_types'] = 'gif|jpg|png';
+                        $config['max_size'] = 2048;
+                        $config['encrypt_name'] = TRUE;
+                        $this->load->library('upload', $config);
+
+                        if (!$this->upload->do_upload('avatar')) {
+                            $error = array('error' => $this->upload->display_errors());
+                            $this->load->view('registrasi_siswa', $error);
                         } else {
-                            $data['error'] = 'Registrasi Gagal';
-                            $this->load->view('registrasi_wakel', $data);
+                            $nama_avatar = htmlspecialchars($this->upload->data('file_name'));
+                            $registrasi = $this->user_model->registrasi_wakel($uuid, $username, hash('sha256', $password), $nama, $email, $nama_avatar, $kelas);
+                            if ($registrasi == true) {
+                                $data['error'] = 'Registrasi Berhasil';
+                                $this->load->view('login', $data);
+                            } else {
+                                $data['error'] = 'Registrasi Gagal';
+                                $this->load->view('registrasi_wakel', $data);
+                            }
                         }
                     }
                     // $data['error'] = "sdfgsdfgdfgdgsfsdg";
                     // $this->load->view('registrasi', $data);
                 }
+
             } elseif ($this->input->post('registasi_BK')) {
+
                 $username = htmlspecialchars(strtolower($this->input->post('username')));
                 $password = htmlspecialchars($this->input->post('password'));
                 $konfirmasiPassword = htmlspecialchars($this->input->post('konfirmasiPassword'));
@@ -258,19 +290,34 @@ class Auth extends CI_Controller
                         $data['error'] = 'User Sudah adda';
                         $this->load->view('registrasi_BK', $data);
                     } else {
-                        $registrasi = $this->user_model->registrasi_BK($uuid, $username, hash('sha256', $password), $nama, $email);
-                        if ($registrasi == true) {
-                            $data['error'] = 'Registrasi Berhasil';
-                            $this->load->view('login', $data);
+                        $config['upload_path'] = FCPATH . 'dist/images/avatar';
+                        $config['allowed_types'] = 'gif|jpg|png';
+                        $config['max_size'] = 2048;
+                        $config['encrypt_name'] = TRUE;
+                        $this->load->library('upload', $config);
+
+                        if (!$this->upload->do_upload('avatar')) {
+                            $error = array('error' => $this->upload->display_errors());
+                            $this->load->view('registrasi_siswa', $error);
                         } else {
-                            $data['error'] = 'Registrasi Gagal';
-                            $this->load->view('registrasi_BK', $data);
+                            $nama_avatar = htmlspecialchars($this->upload->data('file_name'));
+
+                            $registrasi = $this->user_model->registrasi_BK($uuid, $username, hash('sha256', $password), $nama, $email, $nama_avatar);
+                            if ($registrasi == true) {
+                                $data['error'] = 'Registrasi Berhasil';
+                                $this->load->view('login', $data);
+                            } else {
+                                $data['error'] = 'Registrasi Gagal';
+                                $this->load->view('registrasi_BK', $data);
+                            }
                         }
                     }
                     // $data['error'] = "sdfgsdfgdfgdgsfsdg";
                     // $this->load->view('registrasi', $data);
                 }
+
             } elseif ($this->input->post('registasi_satpam')) {
+
                 $username = htmlspecialchars(strtolower($this->input->post('username')));
                 $password = htmlspecialchars($this->input->post('password'));
                 $konfirmasiPassword = htmlspecialchars($this->input->post('konfirmasiPassword'));
@@ -296,17 +343,29 @@ class Auth extends CI_Controller
                         $data['error'] = 'User Sudah adda';
                         $this->load->view('registrasi_satpam', $data);
                     } else {
-                        $registrasi = $this->user_model->registrasi_satpam($uuid, $username, hash('sha256', $password), $nama, $email);
-                        if ($registrasi == true) {
-                            $data['error'] = 'Registrasi Berhasil';
-                            $this->load->view('login', $data);
+                        $config['upload_path'] = FCPATH . 'dist/images/avatar';
+                        $config['allowed_types'] = 'gif|jpg|png';
+                        $config['max_size'] = 2048;
+                        $config['encrypt_name'] = TRUE;
+                        $this->load->library('upload', $config);
+
+                        if (!$this->upload->do_upload('avatar')) {
+                            $error = array('error' => $this->upload->display_errors());
+                            $this->load->view('registrasi_siswa', $error);
                         } else {
-                            $data['error'] = 'Registrasi Gagal';
-                            $this->load->view('registrasi_satpam', $data);
+                            $nama_avatar = htmlspecialchars($this->upload->data('file_name'));
+                            $registrasi = $this->user_model->registrasi_satpam($uuid, $username, hash('sha256', $password), $nama, $email, $nama_avatar);
+                            if ($registrasi == true) {
+                                $data['error'] = 'Registrasi Berhasil';
+                                $this->load->view('login', $data);
+                            } else {
+                                $data['error'] = 'Registrasi Gagal';
+                                $this->load->view('registrasi_satpam', $data);
+                            }
                         }
+                        // $data['error'] = "sdfgsdfgdfgdgsfsdg";
+                        // $this->load->view('registrasi', $data);
                     }
-                    // $data['error'] = "sdfgsdfgdfgdgsfsdg";
-                    // $this->load->view('registrasi', $data);
                 }
             } else {
                 $data['kelas'] = $this->Perizinan_model->get_kelas()->result();

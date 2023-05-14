@@ -19,7 +19,7 @@ class User_model extends CI_Model
         return $query->row();
     }
 
-    public function registrasi_siswa($uuid, $username, $password, $nama, $email, $kelas)
+    public function registrasi_siswa($uuid, $username, $password, $nama, $email, $avatar, $kelas)
     {
         // Mulai transaksi
         $this->db->trans_start();
@@ -31,6 +31,7 @@ class User_model extends CI_Model
             'password' => $password,
             'nama' => $nama,
             'email' => $email,
+            'avatar' => $avatar,
             'role' => 'siswa',
             'status' => '0'
         );
@@ -56,7 +57,7 @@ class User_model extends CI_Model
 
 
     }
-    public function registrasi_wakel($uuid, $username, $password, $nama, $email, $kelas)
+    public function registrasi_wakel($uuid, $username, $password, $nama, $email, $avatar, $kelas)
     {
         // Mulai transaksi
         $this->db->trans_start();
@@ -68,6 +69,7 @@ class User_model extends CI_Model
             'password' => $password,
             'nama' => $nama,
             'email' => $email,
+            'avatar' => $avatar,
             'role' => 'wali_kelas',
             'status' => '0'
         );
@@ -93,7 +95,7 @@ class User_model extends CI_Model
 
 
     }
-    public function registrasi_BK($uuid, $username, $password, $nama, $email)
+    public function registrasi_BK($uuid, $username, $password, $nama, $email, $avatar)
     {
         // Mulai transaksi
         $this->db->trans_start();
@@ -105,6 +107,7 @@ class User_model extends CI_Model
             'password' => $password,
             'nama' => $nama,
             'email' => $email,
+            'avatar' => $avatar,
             'role' => 'bk',
             'status' => '0'
         );
@@ -121,7 +124,7 @@ class User_model extends CI_Model
             return TRUE;
         }
     }
-    public function registrasi_satpam($uuid, $username, $password, $nama, $email)
+    public function registrasi_satpam($uuid, $username, $password, $nama, $email, $avatar)
     {
         // Mulai transaksi
         $this->db->trans_start();
@@ -133,6 +136,7 @@ class User_model extends CI_Model
             'password' => $password,
             'nama' => $nama,
             'email' => $email,
+            'avatar' => $avatar,
             'role' => 'satpam',
             'status' => '0'
         );

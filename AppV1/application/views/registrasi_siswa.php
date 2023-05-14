@@ -41,8 +41,23 @@
                     <?php endif; ?>
                     <div class="mt-5">
                         <div>
-                            <form action="<?= base_url() ?>Auth/registrasi" method="post">
+                            <form action="<?= base_url() ?>Auth/registrasi" method="post" enctype="multipart/form-data">
+                                <div class="md:space-y-2 mb-3">
+                                    <div class="flex items-center">
+                                        <div class="w-20 h-20 mr-4 flex-none rounded-xl border overflow-hidden">
+                                            <img class="w-20 h-20 mr-4 object-cover"
+                                                src="<?= base_url() ?>dist/images/avatar/defaultProfile.jpg">
+                                        </div>
+                                        <label class="font-poppins cursor-pointer ">
 
+                                            <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                for="file_input">Foto profil</span>
+                                            <input
+                                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                id="file_input" type="file" name="avatar">
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="md:flex flex-row md:space-x-4 w-full text-xs">
                                     <div class="mb-3 space-y-2 w-full text-xs">
                                         <label class="font-poppins font-semibold text-gray-600 py-2">Nama
