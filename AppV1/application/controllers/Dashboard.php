@@ -146,6 +146,81 @@ class Dashboard extends CI_Controller
             $this->load->view('verifikasi_perizinan_satpam');
         }
     }
+    public function verifikasi_unread($row_no = 0)
+    {
+
+        $uuid = $this->session->userdata('user_uuid');
+        if ($this->session->userdata('user_role') == "bk") {
+            $data['error'] = '';
+            $search = '';
+
+            //--pagination--
+            $row_per_page = 2;
+
+            if ($row_no != 0) {
+                $row_no = ($row_no - 1) * $row_per_page;
+            }
+            // Pagination Configuration
+            // All record count
+            $config['total_rows'] = $this->Perizinan_model->get_izin_count_bk_unread($search);
+            $config['base_url'] = base_url() . 'dashboard/verifikasi_unread';
+            $config['use_page_numbers'] = true;
+            $config['per_page'] = $row_per_page;
+
+            //initialize
+            $this->pagination->initialize($config);
+
+            $data['pagination'] = $this->pagination->create_links();
+
+            // Get record
+            $data['dataIzin'] = $this->Perizinan_model->get_all_izin_bk_unread($row_no, $row_per_page, $search);
+
+            $data['row'] = $row_no;
+
+            $data['totalRow'] = $config['total_rows'];
+
+            // $data['dataIzin'] = $this->Perizinan_model->get_all_izin($uuidUser);
+            // $data['izin'] = $this->Perizinan_model->get_all_izin_bk();
+            $this->load->view('verifikasi_perizinan_bk', $data);
+        } elseif ($this->session->userdata('user_role') == "wali_kelas") {
+
+            $data['error'] = '';
+            $search = '';
+
+            //--pagination--
+            $row_per_page = 2;
+
+            if ($row_no != 0) {
+                $row_no = ($row_no - 1) * $row_per_page;
+            }
+            // Pagination Configuration
+
+            // All record count
+            $config['total_rows'] = $this->Perizinan_model->get_izin_count_wakel_unread($uuid, $search)->total;
+            $config['base_url'] = base_url() . 'dashboard/verifikasi_unread';
+            $config['use_page_numbers'] = true;
+            $config['per_page'] = $row_per_page;
+
+            //initialize
+            $this->pagination->initialize($config);
+
+            $data['pagination'] = $this->pagination->create_links();
+
+            // Get record
+            $data['dataIzin'] = $this->Perizinan_model->get_all_izin_wakel_unread($uuid, $row_no, $row_per_page, $search);
+
+            $data['row'] = $row_no;
+
+            $data['totalRow'] = $config['total_rows'];
+
+            // $data['dataIzin'] = $this->Perizinan_model->get_all_izin($uuidUser);
+            // $data['izin'] = $this->Perizinan_model->get_all_izin_bk();
+
+            $this->load->view('verifikasi_perizinan_wakel', $data);
+        } elseif ($this->session->userdata('user_role') == "satpam") {
+            $this->load->view('verifikasi_perizinan_satpam');
+        }
+    }
 
 
 

@@ -5,9 +5,11 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->model('user_model');
+
+        $this->load->model('Perizinan_model');
     }
 
-    public function login()
+    public function login_old()
     {
         $data['error'] = '';
         if ($this->session->userdata('user_id')) {
@@ -24,6 +26,90 @@ class Auth extends CI_Controller
                 redirect('Dashboard');
             } else {
                 $data['error'] = 'Username atau password salah';
+            }
+        }
+
+        $this->load->view('login', $data);
+    }
+
+    public function login()
+    {
+        if ($this->input->cookie('uuid', TRUE)) {
+            $uuid = $this->input->cookie('uuid', TRUE);
+            $hashName = $this->input->cookie('key', TRUE);
+
+
+            $user = $this->user_model->get_user_uuid($uuid);
+
+            if (hash('sha256', $user->nama) == $hashName) {
+                $this->session->set_userdata('user_id', $user->id);
+                $this->session->set_userdata('user_role', $user->role);
+                $this->session->set_userdata('user_uuid', $user->uuid);
+
+
+                $nama = $user->nama;
+                $hashName = hash('sha256', $nama);
+
+                if ($this->input->post('rememberMe')) {
+                    $cookie_data = array(
+                        'name' => 'uuid',
+                        'value' => $user->uuid,
+                        'expire' => 3600 * 24 * 2,
+                    );
+                    $this->input->set_cookie($cookie_data);
+                    $cookie_data = array(
+                        'name' => 'key',
+                        'value' => $hashName,
+                        'expire' => 3600 * 24 * 2,
+                    );
+                    $this->input->set_cookie($cookie_data);
+                }
+
+
+                redirect('Dashboard');
+            }
+        }
+
+        $data['error'] = '';
+
+        if ($this->session->userdata('user_id')) {
+            redirect('Dashboard');
+        } else {
+            if ($this->input->post('login')) {
+                $username = strtolower($this->input->post('username'));
+                $password = $this->input->post('password');
+                $user = $this->user_model->get_user($username, hash('sha256', $password));
+                if ($user) {
+                    $this->session->set_userdata('user_id', $user->id);
+                    $this->session->set_userdata('user_role', $user->role);
+                    $this->session->set_userdata('user_uuid', $user->uuid);
+                    $this->session->set_userdata('user_nama', $user->nama);
+                    $this->session->set_userdata('user_email', $user->email);
+
+
+                    $nama = $user->nama;
+                    $hashName = hash('sha256', $nama);
+
+                    if ($this->input->post('rememberMe')) {
+                        $cookie_data = array(
+                            'name' => 'uuid',
+                            'value' => $user->uuid,
+                            'expire' => 3600 * 24 * 2,
+                        );
+                        $this->input->set_cookie($cookie_data);
+                        $cookie_data = array(
+                            'name' => 'key',
+                            'value' => $hashName,
+                            'expire' => 3600 * 24 * 2,
+                        );
+                        $this->input->set_cookie($cookie_data);
+                    }
+
+
+                    redirect('Dashboard');
+                } else {
+                    $data['error'] = 'Username atau password salah';
+                }
             }
         }
 
@@ -51,4 +137,202 @@ class Auth extends CI_Controller
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
+
+    public function registrasi()
+    {
+        $data['error'] = '';
+        if ($this->input->post('btnChooseSiswa')) {
+            $data['kelas'] = $this->Perizinan_model->get_kelas()->result();
+            $this->load->view('registrasi_siswa', $data);
+        } elseif ($this->input->post('btnChooseWakel')) {
+            $data['kelas'] = $this->Perizinan_model->get_kelas()->result();
+            $this->load->view('registrasi_wakel', $data);
+        } elseif ($this->input->post('btnChooseBK')) {
+            $data['kelas'] = $this->Perizinan_model->get_kelas()->result();
+            $this->load->view('registrasi_BK', $data);
+        } elseif ($this->input->post('btnChooseSatpam')) {
+            $data['kelas'] = $this->Perizinan_model->get_kelas()->result();
+            $this->load->view('registrasi_satpam', $data);
+        } else {
+            if ($this->input->post('registasi_siswa')) {
+                $username = htmlspecialchars(strtolower($this->input->post('username')));
+                $password = htmlspecialchars($this->input->post('password'));
+                $konfirmasiPassword = htmlspecialchars($this->input->post('konfirmasiPassword'));
+                $nama = htmlspecialchars($this->input->post('nama'));
+                $email = htmlspecialchars($this->input->post('email'));
+                $kelas = htmlspecialchars($this->input->post('kelas'));
+                $uuid = $this->generate_uuid();
+
+                // $this->session->set_userdata('r_username', $username);
+                // $this->session->set_userdata('r_nama', $nama);
+                // $this->session->set_userdata('r_email', $email);
+
+                // $data['username'] = $this->session->userdata('r_username');
+                // $data['password'] = $this->session->userdata('r_password');
+                // $data['nama'] = $this->session->userdata('r_nama');
+                // $data['email'] = $this->session->userdata('r_email');
+
+                if ($password != $konfirmasiPassword) {
+                    $data['error'] = 'Konfirmasi Password Berbeda';
+                    $this->load->view('registrasi_siswa', $data);
+                } else {
+                    $registrasi = $this->user_model->is_username_exist($username);
+                    if ($registrasi) {
+                        $data['error'] = 'User Sudah adda';
+                        $this->load->view('registrasi_siswa', $data);
+                    } else {
+                        $registrasi = $this->user_model->registrasi_siswa($uuid, $username, hash('sha256', $password), $nama, $email, $kelas);
+                        if ($registrasi == true) {
+                            $data['error'] = 'Registrasi Berhasil';
+                            $this->load->view('login', $data);
+                        } else {
+                            $data['error'] = 'Registrasi Gagal';
+                            $this->load->view('registrasi_siswa', $data);
+                        }
+                    }
+                    // $data['error'] = "sdfgsdfgdfgdgsfsdg";
+                    // $this->load->view('registrasi', $data);
+                }
+            } elseif ($this->input->post('registasi_wakel')) {
+                $username = htmlspecialchars(strtolower($this->input->post('username')));
+                $password = htmlspecialchars($this->input->post('password'));
+                $konfirmasiPassword = htmlspecialchars($this->input->post('konfirmasiPassword'));
+                $nama = htmlspecialchars($this->input->post('nama'));
+                $email = htmlspecialchars($this->input->post('email'));
+                $kelas = htmlspecialchars($this->input->post('kelas'));
+                $uuid = $this->generate_uuid();
+
+                // $this->session->set_userdata('r_username', $username);
+                // $this->session->set_userdata('r_nama', $nama);
+                // $this->session->set_userdata('r_email', $email);
+
+                // $data['username'] = $this->session->userdata('r_username');
+                // $data['password'] = $this->session->userdata('r_password');
+                // $data['nama'] = $this->session->userdata('r_nama');
+                // $data['email'] = $this->session->userdata('r_email');
+
+                if ($password != $konfirmasiPassword) {
+                    $data['error'] = 'Konfirmasi Password Berbeda';
+                    $this->load->view('registrasi_wakel', $data);
+                } else {
+                    $registrasi = $this->user_model->is_username_exist($username);
+                    if ($registrasi) {
+                        $data['error'] = 'User Sudah adda';
+                        $this->load->view('registrasi_wakel', $data);
+                    } else {
+                        $registrasi = $this->user_model->registrasi_wakel($uuid, $username, hash('sha256', $password), $nama, $email, $kelas);
+                        if ($registrasi == true) {
+                            $data['error'] = 'Registrasi Berhasil';
+                            $this->load->view('login', $data);
+                        } else {
+                            $data['error'] = 'Registrasi Gagal';
+                            $this->load->view('registrasi_wakel', $data);
+                        }
+                    }
+                    // $data['error'] = "sdfgsdfgdfgdgsfsdg";
+                    // $this->load->view('registrasi', $data);
+                }
+            } elseif ($this->input->post('registasi_BK')) {
+                $username = htmlspecialchars(strtolower($this->input->post('username')));
+                $password = htmlspecialchars($this->input->post('password'));
+                $konfirmasiPassword = htmlspecialchars($this->input->post('konfirmasiPassword'));
+                $nama = htmlspecialchars($this->input->post('nama'));
+                $email = htmlspecialchars($this->input->post('email'));
+                $uuid = $this->generate_uuid();
+
+                // $this->session->set_userdata('r_username', $username);
+                // $this->session->set_userdata('r_nama', $nama);
+                // $this->session->set_userdata('r_email', $email);
+
+                // $data['username'] = $this->session->userdata('r_username');
+                // $data['password'] = $this->session->userdata('r_password');
+                // $data['nama'] = $this->session->userdata('r_nama');
+                // $data['email'] = $this->session->userdata('r_email');
+
+                if ($password != $konfirmasiPassword) {
+                    $data['error'] = 'Konfirmasi Password Berbeda';
+                    $this->load->view('registrasi_BK', $data);
+                } else {
+                    $registrasi = $this->user_model->is_username_exist($username);
+                    if ($registrasi) {
+                        $data['error'] = 'User Sudah adda';
+                        $this->load->view('registrasi_BK', $data);
+                    } else {
+                        $registrasi = $this->user_model->registrasi_BK($uuid, $username, hash('sha256', $password), $nama, $email);
+                        if ($registrasi == true) {
+                            $data['error'] = 'Registrasi Berhasil';
+                            $this->load->view('login', $data);
+                        } else {
+                            $data['error'] = 'Registrasi Gagal';
+                            $this->load->view('registrasi_BK', $data);
+                        }
+                    }
+                    // $data['error'] = "sdfgsdfgdfgdgsfsdg";
+                    // $this->load->view('registrasi', $data);
+                }
+            } elseif ($this->input->post('registasi_satpam')) {
+                $username = htmlspecialchars(strtolower($this->input->post('username')));
+                $password = htmlspecialchars($this->input->post('password'));
+                $konfirmasiPassword = htmlspecialchars($this->input->post('konfirmasiPassword'));
+                $nama = htmlspecialchars($this->input->post('nama'));
+                $email = htmlspecialchars($this->input->post('email'));
+                $uuid = $this->generate_uuid();
+
+                // $this->session->set_userdata('r_username', $username);
+                // $this->session->set_userdata('r_nama', $nama);
+                // $this->session->set_userdata('r_email', $email);
+
+                // $data['username'] = $this->session->userdata('r_username');
+                // $data['password'] = $this->session->userdata('r_password');
+                // $data['nama'] = $this->session->userdata('r_nama');
+                // $data['email'] = $this->session->userdata('r_email');
+
+                if ($password != $konfirmasiPassword) {
+                    $data['error'] = 'Konfirmasi Password Berbeda';
+                    $this->load->view('registrasi_satpam', $data);
+                } else {
+                    $registrasi = $this->user_model->is_username_exist($username);
+                    if ($registrasi) {
+                        $data['error'] = 'User Sudah adda';
+                        $this->load->view('registrasi_satpam', $data);
+                    } else {
+                        $registrasi = $this->user_model->registrasi_satpam($uuid, $username, hash('sha256', $password), $nama, $email);
+                        if ($registrasi == true) {
+                            $data['error'] = 'Registrasi Berhasil';
+                            $this->load->view('login', $data);
+                        } else {
+                            $data['error'] = 'Registrasi Gagal';
+                            $this->load->view('registrasi_satpam', $data);
+                        }
+                    }
+                    // $data['error'] = "sdfgsdfgdfgdgsfsdg";
+                    // $this->load->view('registrasi', $data);
+                }
+            } else {
+                $data['kelas'] = $this->Perizinan_model->get_kelas()->result();
+                $this->load->view('registrasi', $data);
+            }
+        }
+
+
+        // if ($this->session->userdata('user_id')) {
+        //     redirect('Dashboard');
+        // } else {
+        //     if ($this->input->post('login')) {
+        //         $username = $this->input->post('username');
+        //         $password = $this->input->post('password');
+        //         $user = $this->user_model->get_user($username, $password);
+        //         if ($user) {
+        //             $this->session->set_userdata('user_id', $user->id);
+        //             $this->session->set_userdata('user_role', $user->role);
+        //             $this->session->set_userdata('user_uuid', $user->uuid);
+        //             redirect('Dashboard');
+        //         } else {
+        //             $data['error'] = 'Username atau password salah';
+        //         }
+        //     }
+        // }
+
+        // $this->load->view('login', $data);
+    }
 }

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="icon" href="<?= base_url() ?>dist/images/icons/logo.jpeg" type="image/icon type">
-    <title>Reuni Bukber SMKN 2 PWD</title>
+    <title>Sistem Perizinan SMKN 1 WIROSARI</title>
     <!-- <link rel="manifest" href="manifest.json"> -->
 </head>
 

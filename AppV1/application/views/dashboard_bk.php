@@ -44,6 +44,17 @@
             <div class="grid m-0 grid-cols-1 gap-3 justify-center items-center w-full max-w-md">
 
 
+                <a href="<?= base_url() ?>dashboard/verifikasi_unread">
+                    <div class=" bg-gradient-to-r from-cyan-500 to-blue-500 opacity-50 rounded-3xl grid grid-cols-1
+                    justify-items-center align-items-center place-content-center gap-2 p-5">
+                        <div class="h-2/5 w-2/5 justify-items-center grid">
+                            <img class="" src="<?= base_url() ?>dist/images/icons/verification.png">
+                        </div>
+                        <p class="text-lg font-bold font-poppins text-white">
+                            Verifikasi Izin
+                        </p>
+                    </div>
+                </a>
                 <a href="<?= base_url() ?>dashboard/verifikasi">
                     <div class=" bg-gradient-to-r from-cyan-500 to-blue-500 opacity-50 rounded-3xl grid grid-cols-1
                     justify-items-center align-items-center place-content-center gap-2 p-5">
@@ -51,18 +62,21 @@
                             <img class="" src="<?= base_url() ?>dist/images/icons/verification.png">
                         </div>
                         <p class="text-lg font-bold font-poppins text-white">
-                            Daftar Izin
+                            History Izin
                         </p>
                     </div>
                 </a>
-                <a href="<?= base_url('Export') ?>" target="_blank"
-                    class="col-span-2 px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 text-sm font-poppins font-bold text-white text-center">
-                    Download Rekap Kehadiran
-                </a>
+
+            </div>
+            <div class="grid m-0 grid-cols-1 gap-3 justify-center items-center w-full max-w-md">
+
+
+
                 <a href="<?php echo site_url('auth/logout'); ?>"
                     class="col-span-2 px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 text-sm font-poppins font-bold text-white text-center">
                     Logout
                 </a>
+
                 <div class="h-36 w-full"></div>
             </div>
 
