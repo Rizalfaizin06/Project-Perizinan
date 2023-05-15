@@ -59,13 +59,13 @@
                 <h3 class="font-poppins font-bold text-center">Scan QR untuk Verifikasi</h3>
 
                 <div id="qrcode<?= $status->perizinan_id ?>"
-                    class="grid grid-cols-1 justify-items-center bg-white w-48 overflow-hidden p-3">
+                    class="grid grid-cols-1 justify-items-center bg-white w-full overflow-hidden p-3">
 
                 </div>
                 <script>
                     var qr = new QRCode(document.getElementById("qrcode<?= $status->perizinan_id ?>"), {
                     });
-                    qr.makeCode("<?= $status->uuid ?>");
+                    qr.makeCode("<?= $status->perizinan_id ?>");
                 </script>
             </div>
         <?php elseif ($statValue == 50):

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="icon" href="<?= base_url() ?>dist/images/icons/logo.jpeg" type="image/icon type">
-    <title>Reuni Bukber SMKN 2 PWD</title>
+    <title>Sistem Perizinan SMKN 1 Wirosari</title>
     <!-- <link rel="manifest" href="manifest.json"> -->
 </head>
 
@@ -20,7 +20,7 @@
             <div class="h-28 col-span-2">
                 <h2 class="text-2xl font-bold font-poppins text-white">Satpam</h2>
                 <p class="text-lg font-bold font-poppins text-white">
-                    Nama Satpam
+                    <?= $nama ?>
                 </p>
                 <p class="text-lg font-bold font-poppins text-white">
                     SMKN 1 WIROSARI
@@ -28,11 +28,8 @@
 
             </div>
             <div class="">
-                <img class="rounded-full w-28 h-28 shadow" src="<?= base_url() ?>dist/images/icons/logo.jpeg">
+                <img class="rounded-full w-28 h-28 shadow" src="<?= base_url() ?>dist/images/avatar/<?= $avatar ?>">
             </div>
-
-
-
         </div>
         <div class="grid grid-cols-1 justify-items-center w-full gap-3 p-5" id="allContent">
             <div id="scanQR">
@@ -107,9 +104,9 @@
                             // document.getElementById('result').textContent = result.text;
                             codeReader.reset();
                             $.ajax({
-                                url: "<?= base_url(); ?>ajax/check_status_pembayaran",
+                                url: "<?= base_url(); ?>ajax/check_status_perizinan",
                                 type: "POST",
-                                data: { uuidSiswa: result.text },
+                                data: { idIzin: result.text },
                                 success: function (response) {
                                     console.log(response);
                                     $("#scanQR").html(response);

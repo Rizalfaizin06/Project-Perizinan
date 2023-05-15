@@ -1,19 +1,31 @@
-<!-- <?php var_dump($konfirmasiBK); ?> -->
+<?php
+if ($statValue == 100): ?>
 
-<div id="scanQR">
-    <?php
-    if ($status == 1): ?>
-        <h3 class="font-poppins font-bold text-center">Pembayaran Terverifikasi</h3>
-    <?php else: ?>
-        <h3 class="font-poppins font-bold text-center">Pembayaran Tidak Terverifikasi</h3>
+    <script src="<?= base_url() ?>dist/js/qrcode.min.js"></script>
+    <div class="pt-5 grid grid-cols-1 justify-items-center">
+        <h3 class="font-poppins font-bold text-center">Perizinan Terverifikasi</h3>
 
-    <?php endif; ?>
-    <div class="grid grid-cols-1 justify-items-center bg-white w-64 rounded-2xl overflow-hidden mt-5">
-        <?php if ($status == 1): ?>
-            <img src="<?= base_url(); ?>dist/images/icons/verified.png" alt="avatar">
-        <?php else: ?>
-            <img src="<?= base_url(); ?>dist/images/icons/notVerified.png" alt="avatar">
-
-        <?php endif; ?>
+        <div class="grid grid-cols-1 justify-items-center bg-white w-48 overflow-hidden p-3">
+            <img src="<?= base_url() ?>dist/images/icons/verified.png" alt="" srcset="">
+        </div>
     </div>
-</div>
+<?php elseif ($statValue == 50):
+    ?>
+    <div class="pt-5 grid grid-cols-1 justify-items-center border-t-2">
+        <h3 class="font-poppins font-bold text-center">Menunggu Konfirmasi</h3>
+
+        <div class="grid grid-cols-1 justify-items-center bg-white w-48 overflow-hidden p-3">
+            <img src="<?= base_url() ?>dist/images/icons/waiting.gif" alt="" srcset="">
+        </div>
+    </div>
+<?php elseif ($statValue == 0):
+    ?>
+    <div class="pt-5 grid grid-cols-1 justify-items-center border-t-2">
+        <h3 class="font-poppins font-bold text-center">Perizinan Ditolak</h3>
+
+        <div class="grid grid-cols-1 justify-items-center bg-white w-48 overflow-hidden p-3">
+            <img src="<?= base_url() ?>dist/images/icons/notVerified.png" alt="" srcset="">
+        </div>
+    </div>
+<?php endif;
+?>

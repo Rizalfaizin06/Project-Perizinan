@@ -12,16 +12,22 @@ class Dashboard extends CI_Controller
         if (!$this->session->userdata('user_id')) {
             redirect('auth/login');
         }
+        $data['id'] = $this->session->userdata('user_id');
+        $data['role'] = $this->session->userdata('user_role');
+        $data['uuid'] = $this->session->userdata('user_uuid');
+        $data['nama'] = $this->session->userdata('user_nama');
+        $data['email'] = $this->session->userdata('user_email');
+        $data['avatar'] = $this->session->userdata('user_avatar');
         if ($this->session->userdata('user_role') == "admin") {
-            $this->load->view('dashboard_admin');
+            $this->load->view('dashboard_admin', $data);
         } elseif ($this->session->userdata('user_role') == "siswa") {
-            $this->load->view('dashboard_siswa');
+            $this->load->view('dashboard_siswa', $data);
         } elseif ($this->session->userdata('user_role') == "satpam") {
-            $this->load->view('dashboard_satpam');
+            $this->load->view('dashboard_satpam', $data);
         } elseif ($this->session->userdata('user_role') == "bk") {
-            $this->load->view('dashboard_bk');
+            $this->load->view('dashboard_bk', $data);
         } elseif ($this->session->userdata('user_role') == "wali_kelas") {
-            $this->load->view('dashboard_wakel');
+            $this->load->view('dashboard_wakel', $data);
         }
     }
 
@@ -143,7 +149,13 @@ class Dashboard extends CI_Controller
 
             $this->load->view('verifikasi_perizinan_wakel', $data);
         } elseif ($this->session->userdata('user_role') == "satpam") {
-            $this->load->view('verifikasi_perizinan_satpam');
+            $data['id'] = $this->session->userdata('user_id');
+            $data['role'] = $this->session->userdata('user_role');
+            $data['uuid'] = $this->session->userdata('user_uuid');
+            $data['nama'] = $this->session->userdata('user_nama');
+            $data['email'] = $this->session->userdata('user_email');
+            $data['avatar'] = $this->session->userdata('user_avatar');
+            $this->load->view('verifikasi_perizinan_satpam', $data);
         }
     }
     public function verifikasi_unread($row_no = 0)

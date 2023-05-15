@@ -45,14 +45,19 @@ class Perizinan_model extends CI_Model
         return $result;
     }
 
-    public function get_verifikasi_izin($uuid)
+    public function get_verifikasi_izin($id)
     {
-        $this->db->select('konfirmasiBK, konfirmasiWakel');
+        $this->db->select('konfirmasiBK, konfirmasiWakel, reject');
         $this->db->from('tbl_perizinan');
-        $this->db->where('uuid', $uuid);
-        $this->db->order_by('id', 'DESC');
-        $this->db->limit(1);
+        $this->db->where('id', $id);
+        // $this->db->order_by('id', 'DESC');
+        // $this->db->limit(1);
         $result = $this->db->get()->row();
+
+        $this->db->set('waktuKeluar', 'NOW()', false);
+        $this->db->where('id', $id);
+        $this->db->update('tbl_perizinan');
+
         return $result;
     }
 

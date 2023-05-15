@@ -24,7 +24,7 @@
             <div class="h-28 col-span-2">
                 <h2 class="text-2xl font-bold font-poppins text-white">Wali Kelas</h2>
                 <p class="text-lg font-bold font-poppins text-white">
-                    Nama wali kelas
+                    <?= $nama ?>
                 </p>
                 <p class="text-lg font-bold font-poppins text-white">
                     SMKN 1 WIROSARI
@@ -32,7 +32,7 @@
 
             </div>
             <div class="">
-                <img class="rounded-full w-28 h-28 shadow" src="<?= base_url() ?>dist/images/icons/logo.jpeg">
+                <img class="rounded-full w-28 h-28 shadow" src="<?= base_url() ?>dist/images/avatar/<?= $avatar ?>">
             </div>
         </div>
         <!-- <div class="p-5">
