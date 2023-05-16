@@ -25,7 +25,7 @@
             <div class="h-28 col-span-2">
                 <h2 class="text-2xl font-bold font-poppins text-white">Siswa</h2>
                 <p class="text-lg font-bold font-poppins text-white">
-                    Rizal faizin firdaus
+                    <?= $nama ?>
                 </p>
                 <p class="text-lg font-bold font-poppins text-white">
                     SMKN 1 WIROSARI
@@ -33,13 +33,13 @@
 
             </div>
             <div class="">
-                <img class="rounded-full w-28 h-28 shadow" src="<?= base_url() ?>dist/images/icons/logo.jpeg">
+                <img class="rounded-full w-28 h-28 shadow" src="<?= base_url() ?>dist/images/avatar/<?= $avatar ?>">
             </div>
         </div>
         <!-- <div class="p-5">
             <h2 colspan="11"
                 class="text-center text-2xl bg-gradient-to-r from-cyan-300 to-blue-400 font-bold rounded-lg text-white w-full m-5 p-3">
-                alumni
+                Siswa
             </h2>
         </div> -->
         <div class="h-24 md:h-8 w-full px-3 pt-8 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -58,7 +58,7 @@
                 </a>
             </div>
             <div class="">
-                <form action="<?= base_url('dashboard/verifikasi') ?>" method="post">
+                <form action="<?= base_url('dashboard/perizinan') ?>" method="post">
                     <label for="default-search"
                         class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
@@ -71,7 +71,7 @@
                         </div>
                         <input type="search" id="search" name="search"
                             class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Cari nama" value="<?= (isset($search)) ? $search : '' ?>">
+                            placeholder="Cari Alasan" value="<?= (isset($search)) ? $search : '' ?>">
                         <button type="submit"
                             class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                     </div>
@@ -138,15 +138,16 @@
 
                                         <form action="<?= base_url() ?>dashboard/detail_izin" method="post">
                                             <div class="input-group mb-3">
-                                                <input type="hidden" name="id" value="<?= $row->id; ?>" class="form-control">
+                                                <input type="hidden" name="id" value="<?= $row->perizinan_id; ?>"
+                                                    class="form-control">
                                                 <!-- <input type="submit" name="confirm" value="Konfirmasi" class="btn btn-primary">
                                         <input type="submit" name="reject" value="Tolak" class="btn btn-primary"> -->
 
-                                                <button data-modal-target="defaultModal<?= $row->id; ?>"
-                                                    data-modal-toggle="defaultModal<?= $row->id; ?>" type="button"
+                                                <button data-modal-target="defaultModal<?= $row->perizinan_id; ?>"
+                                                    data-modal-toggle="defaultModal<?= $row->perizinan_id; ?>" type="button"
                                                     name="detailIzin" value="detailIzin"
                                                     class="px-3 py-2 rounded-lg bg-primary hover:bg-opacity-80"
-                                                    onclick="detailView(<?= $row->id; ?>)">
+                                                    onclick="detailView(<?= $row->perizinan_id; ?>)">
 
 
                                                     <span class="text-xs font-poppins font-bold text-white">Detail</span>
@@ -162,7 +163,7 @@
 
 
                                     <!-- Main modal -->
-                                    <div id="defaultModal<?= $row->id; ?>" tabindex="-1" aria-hidden="true"
+                                    <div id="defaultModal<?= $row->perizinan_id; ?>" tabindex="-1" aria-hidden="true"
                                         class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                         <div class="relative w-full max-w-2xl max-h-full">
                                             <!-- Modal content -->
@@ -175,7 +176,7 @@
                                                     </h3>
                                                     <button type="button"
                                                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        data-modal-hide="defaultModal<?= $row->id; ?>">
+                                                        data-modal-hide="defaultModal<?= $row->perizinan_id; ?>">
                                                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
                                                             viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                             <path fill-rule="evenodd"
@@ -188,7 +189,7 @@
                                                 <!-- Modal body -->
                                                 <div class="p-6 space-y-6">
 
-                                                    <p id="allContent<?= $row->id; ?>"
+                                                    <p id="allContent<?= $row->perizinan_id; ?>"
                                                         class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
 
                                                     </p>
@@ -198,7 +199,8 @@
                                                 <!-- Modal footer -->
                                                 <div
                                                     class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                                    <button data-modal-hide="defaultModal<?= $row->id; ?>" type="button"
+                                                    <button data-modal-hide="defaultModal<?= $row->perizinan_id; ?>"
+                                                        type="button"
                                                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Close</button>
 
                                                 </div>
@@ -230,7 +232,7 @@
 
                 ?>
                 <h2 class="text-xl font-poppins font-bold text-center mr-2 md:mr-8 mt-24 text-red-500">
-                    Tidak ada data alumni
+                    Tidak ada data Siswa
                 </h2>
             <?php else: ?>
                 <h2 class="text-xl font-poppins font-bold text-center mr-2 md:mr-8 mt-2">
@@ -277,10 +279,10 @@
         //     $.ajax({
         //         url: "<?php echo base_url(); ?>ajax/get_status_konfirmasi",
         //         type: "post",
-        //         data: { id: <?= $row->id; ?> },
+        //         data: { id: <?= $row->perizinan_id; ?> },
         //         success: function (response) {
         //             console.log(response);
-        //             $("#allContent<?= $row->id; ?>").html(response);
+        //             $("#allContent<?= $row->perizinan_id; ?>").html(response);
         //         }
         //     });
         // }, 1000); // interval diatur dalam milidetik (ms)

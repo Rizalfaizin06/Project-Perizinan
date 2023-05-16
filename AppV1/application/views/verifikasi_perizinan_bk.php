@@ -38,7 +38,7 @@
         <!-- <div class="p-5">
             <h2 colspan="11"
                 class="text-center text-2xl bg-gradient-to-r from-cyan-300 to-blue-400 font-bold rounded-lg text-white w-full m-5 p-3">
-                alumni
+                Siswa
             </h2>
         </div> -->
         <div class="h-24 md:h-8 w-full px-3 pt-8 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -64,7 +64,7 @@
                         </div>
                         <input type="search" id="search" name="search"
                             class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Cari nama" value="<?= (isset($search)) ? $search : '' ?>">
+                            placeholder="Cari Alasan" value="<?= (isset($search)) ? $search : '' ?>">
                         <button type="submit"
                             class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                     </div>
@@ -236,7 +236,7 @@
 
                 ?>
                 <h2 class="text-xl font-poppins font-bold text-center mr-2 md:mr-8 mt-24 text-red-500">
-                    Tidak ada data alumni
+                    Tidak ada data Siswa
                 </h2>
             <?php else: ?>
                 <h2 class="text-xl font-poppins font-bold text-center mr-2 md:mr-8 mt-2">

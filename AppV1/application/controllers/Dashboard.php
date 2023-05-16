@@ -34,10 +34,24 @@ class Dashboard extends CI_Controller
 
     public function perizinan($row_no = 0)
     {
+        $data['id'] = $this->session->userdata('user_id');
+        $data['role'] = $this->session->userdata('user_role');
+        $data['uuid'] = $this->session->userdata('user_uuid');
+        $data['nama'] = $this->session->userdata('user_nama');
+        $data['email'] = $this->session->userdata('user_email');
+        $data['avatar'] = $this->session->userdata('user_avatar');
         $uuidUser = $this->session->userdata('user_uuid');
         $data['error'] = '';
         $search = '';
-
+        if ($this->input->method() == 'post') {
+            $search = $this->input->post('search');
+            $this->session->set_userdata("search", $search);
+        } else {
+            if ($this->session->userdata('search')) {
+                $search = $this->session->userdata('search');
+            }
+        }
+        $data['search'] = $search;
         //--pagination--
         $row_per_page = 2;
 
@@ -79,11 +93,25 @@ class Dashboard extends CI_Controller
 
     public function verifikasi($row_no = 0)
     {
-
+        $data['id'] = $this->session->userdata('user_id');
+        $data['role'] = $this->session->userdata('user_role');
+        $data['uuid'] = $this->session->userdata('user_uuid');
+        $data['nama'] = $this->session->userdata('user_nama');
+        $data['email'] = $this->session->userdata('user_email');
+        $data['avatar'] = $this->session->userdata('user_avatar');
         $uuid = $this->session->userdata('user_uuid');
         if ($this->session->userdata('user_role') == "bk") {
             $data['error'] = '';
             $search = '';
+            if ($this->input->method() == 'post') {
+                $search = $this->input->post('search');
+                $this->session->set_userdata("search", $search);
+            } else {
+                if ($this->session->userdata('search')) {
+                    $search = $this->session->userdata('search');
+                }
+            }
+            $data['search'] = $search;
 
             //--pagination--
             $row_per_page = 2;
@@ -114,9 +142,17 @@ class Dashboard extends CI_Controller
             // $data['izin'] = $this->Perizinan_model->get_all_izin_bk();
             $this->load->view('verifikasi_perizinan_bk', $data);
         } elseif ($this->session->userdata('user_role') == "wali_kelas") {
-
             $data['error'] = '';
             $search = '';
+            if ($this->input->method() == 'post') {
+                $search = $this->input->post('search');
+                $this->session->set_userdata("search", $search);
+            } else {
+                if ($this->session->userdata('search')) {
+                    $search = $this->session->userdata('search');
+                }
+            }
+            $data['search'] = $search;
 
             //--pagination--
             $row_per_page = 2;
@@ -127,7 +163,7 @@ class Dashboard extends CI_Controller
             // Pagination Configuration
 
             // All record count
-            $config['total_rows'] = $this->Perizinan_model->get_izin_count_wakel($uuid, $search)->total;
+            $config['total_rows'] = $this->Perizinan_model->get_izin_count_wakel($uuid, $search);
             $config['base_url'] = base_url() . 'dashboard/verifikasi';
             $config['use_page_numbers'] = true;
             $config['per_page'] = $row_per_page;
@@ -160,11 +196,25 @@ class Dashboard extends CI_Controller
     }
     public function verifikasi_unread($row_no = 0)
     {
-
+        $data['id'] = $this->session->userdata('user_id');
+        $data['role'] = $this->session->userdata('user_role');
+        $data['uuid'] = $this->session->userdata('user_uuid');
+        $data['nama'] = $this->session->userdata('user_nama');
+        $data['email'] = $this->session->userdata('user_email');
+        $data['avatar'] = $this->session->userdata('user_avatar');
         $uuid = $this->session->userdata('user_uuid');
         if ($this->session->userdata('user_role') == "bk") {
             $data['error'] = '';
             $search = '';
+            if ($this->input->method() == 'post') {
+                $search = $this->input->post('search');
+                $this->session->set_userdata("search", $search);
+            } else {
+                if ($this->session->userdata('search')) {
+                    $search = $this->session->userdata('search');
+                }
+            }
+            $data['search'] = $search;
 
             //--pagination--
             $row_per_page = 2;
@@ -198,6 +248,15 @@ class Dashboard extends CI_Controller
 
             $data['error'] = '';
             $search = '';
+            if ($this->input->method() == 'post') {
+                $search = $this->input->post('search');
+                $this->session->set_userdata("search", $search);
+            } else {
+                if ($this->session->userdata('search')) {
+                    $search = $this->session->userdata('search');
+                }
+            }
+            $data['search'] = $search;
 
             //--pagination--
             $row_per_page = 2;
@@ -238,6 +297,12 @@ class Dashboard extends CI_Controller
 
     public function confirmation_waiting()
     {
+        $data['id'] = $this->session->userdata('user_id');
+        $data['role'] = $this->session->userdata('user_role');
+        $data['uuid'] = $this->session->userdata('user_uuid');
+        $data['nama'] = $this->session->userdata('user_nama');
+        $data['email'] = $this->session->userdata('user_email');
+        $data['avatar'] = $this->session->userdata('user_avatar');
         $uuid = $this->session->userdata('user_uuid');
         $data['error'] = '';
         if ($this->input->post('izin')) {
@@ -290,11 +355,11 @@ class Dashboard extends CI_Controller
         if ($this->input->post('Konfirmasi')) {
             $id = $this->input->post('id');
             $this->Perizinan_model->update_confirmation($id);
-            redirect('dashboard/verifikasi');
+            redirect('dashboard/verifikasi_unread');
         } elseif ($this->input->post('Tolak')) {
             $id = $this->input->post('id');
             $this->Perizinan_model->reject_confirmation($id);
-            redirect('dashboard/verifikasi');
+            redirect('dashboard/verifikasi_unread');
         }
 
     }

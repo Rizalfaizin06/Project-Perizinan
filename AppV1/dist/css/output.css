@@ -1366,10 +1366,6 @@ input:checked + .toggle-bg {
   display: none;
 }
 
-.aspect-square {
-  aspect-ratio: 1 / 1;
-}
-
 .h-1 {
   height: 0.25rem;
 }
@@ -1457,6 +1453,10 @@ input:checked + .toggle-bg {
 
 .w-11\/12 {
   width: 91.666667%;
+}
+
+.w-2\/3 {
+  width: 66.666667%;
 }
 
 .w-2\/5 {

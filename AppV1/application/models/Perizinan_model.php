@@ -68,7 +68,7 @@ class Perizinan_model extends CI_Model
         $this->db->from('tbl_perizinan P');
         $this->db->join('tbl_users U', 'P.uuid = U.uuid');
         $this->db->where('P.id', $id);
-
+        // var_dump($id);
         // $this->db->select('*');
         // $this->db->from('tbl_perizinan');
         // $this->db->where('id', $id);
@@ -94,8 +94,9 @@ class Perizinan_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('tbl_perizinan');
-
-        // $this->db->like('nama', $search);
+        if ($search != "") {
+            $this->db->like('alasan', $search);
+        }
         $this->db->order_by('id', 'DESC');
         $result = $this->db->limit($rowperpage, $rowno)->get();
         // $result = $this->db->get('tbl_perizinan');
@@ -109,7 +110,9 @@ class Perizinan_model extends CI_Model
         $this->db->from('tbl_perizinan');
 
         $this->db->where('konfirmasiBK', 0);
-        // $this->db->like('nama', $search);
+        if ($search != "") {
+            $this->db->like('alasan', $search);
+        }
         $this->db->order_by('id', 'DESC');
         $result = $this->db->limit($rowperpage, $rowno)->get();
         // $result = $this->db->get('tbl_perizinan');
@@ -134,9 +137,18 @@ class Perizinan_model extends CI_Model
         // $this->db->order_by('id', 'DESC');
         // $result = $this->db->get()->result();
         // $result = $this->db->get('tbl_perizinan');
+        $this->db->select('*');
+        $this->db->from('tbl_perizinan P');
+        $this->db->join('tbl_siswa S', 'P.uuid = S.uuid');
+        $this->db->join('tbl_wali_kelas W', 'W.kelas = S.kelas');
+        $this->db->where('W.uuid', $uuid);
+        if ($search != "") {
+            $this->db->like('alasan', $search);
+        }
+        $this->db->order_by('id', 'DESC');
+        $result = $this->db->limit($rowperpage, $rowno)->get();
 
-
-        $result = $this->db->query('SELECT * FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND W.uuid = "' . $uuid . '"ORDER BY id DESC LIMIT ' . $rowno . ' , ' . $rowperpage . ';');
+        // $result = $this->db->query('SELECT * FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND W.uuid = "' . $uuid . '" AND alasan LIKE "' . $search . '" ORDER BY id DESC LIMIT ' . $rowno . ' , ' . $rowperpage . ';');
 
         return $result;
     }
@@ -158,20 +170,26 @@ class Perizinan_model extends CI_Model
         // $result = $this->db->get('tbl_perizinan');
 
 
-        $result = $this->db->query('SELECT * FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND P.konfirmasiWakel = 0 AND W.uuid = "' . $uuid . '"ORDER BY id DESC LIMIT ' . $rowno . ' , ' . $rowperpage . ';');
+        $result = $this->db->query('SELECT * FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND P.konfirmasiWakel = 0 AND W.uuid = "' . $uuid . '" AND alasan LIKE "' . $search . '" ORDER BY id DESC LIMIT ' . $rowno . ' , ' . $rowperpage . ';');
 
         return $result;
     }
 
     public function get_izin($uuid, $rowno, $rowperpage, $search = "")
     {
-        $this->db->select('*');
-        $this->db->from('tbl_perizinan');
-        $this->db->where('uuid', $uuid);
-        $this->db->like('id', $search);
-        $this->db->order_by('id', 'DESC');
+
+        $this->db->select('*, P.id AS "perizinan_id"');
+        $this->db->from('tbl_perizinan P');
+        $this->db->join('tbl_users U', 'P.uuid = U.uuid');
+        // $this->db->where('P.id', $id);
+        // $this->db->select('*');
+        // $this->db->from('tbl_perizinan');
+        $this->db->where('U.uuid', $uuid);
+        if ($search != "") {
+            $this->db->like('alasan', $search);
+        }
+        $this->db->order_by('P.id', 'DESC');
         $result = $this->db->limit($rowperpage, $rowno)->get();
-        // $result = $this->db->get('tbl_perizinan');
 
         return $result;
     }
@@ -210,8 +228,9 @@ class Perizinan_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('tbl_perizinan');
-
-        $this->db->like('uuid', $search);
+        if ($search != "") {
+            $this->db->like('alasan', $search);
+        }
         $result = $this->db->count_all_results();
 
         return $result;
@@ -222,7 +241,9 @@ class Perizinan_model extends CI_Model
         $this->db->from('tbl_perizinan');
 
         $this->db->where('konfirmasiBK', 0);
-        $this->db->like('uuid', $search);
+        if ($search != "") {
+            $this->db->like('alasan', $search);
+        }
         $result = $this->db->count_all_results();
 
         return $result;
@@ -230,11 +251,23 @@ class Perizinan_model extends CI_Model
 
     public function get_izin_count_siswa($uuid, $search = "")
     {
-        $this->db->select('*');
-        $this->db->from('tbl_perizinan');
 
-        $this->db->where('uuid', $uuid);
-        $this->db->like('uuid', $search);
+        $this->db->select('*, P.id AS "perizinan_id"');
+        $this->db->from('tbl_perizinan P');
+        $this->db->join('tbl_users U', 'P.uuid = U.uuid');
+        // $this->db->where('P.id', $id);
+        // $this->db->select('*');
+        // $this->db->from('tbl_perizinan');
+        $this->db->where('U.uuid', $uuid);
+        if ($search != "") {
+            $this->db->like('alasan', $search);
+        }
+        // $this->db->order_by('id', 'DESC');
+        // $this->db->select('*');
+        // $this->db->from('tbl_perizinan');
+
+        // $this->db->where('uuid', $uuid);
+        // $this->db->like('uuid', $search);
 
         $result = $this->db->count_all_results();
 
@@ -243,16 +276,35 @@ class Perizinan_model extends CI_Model
 
     public function get_izin_count_wakel($uuid, $search = "")
     {
-        $result = $this->db->query('SELECT COUNT(*) total FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND W.uuid = "' . $uuid . '";');
+        // if ($search != "") {
 
-
-        $result = $result->row();
+        //     $result = $this->db->query('SELECT COUNT(*) total FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND W.uuid = "' . $uuid . '" AND alasan LIKE "' . $search . '" ;');
+        // } else {
+        //     $result = $this->db->query('SELECT COUNT(*) total FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND W.uuid = "' . $uuid . '";');
+        // }
+        // echo 'SELECT COUNT(*) total FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND W.uuid = "' . $uuid . '";';
+        // $this->db->select('COUNT(*) as total');
+        // $this->db->from('tbl_perizinan P');
+        // $this->db->join('tbl_siswa S', 'P.uuid = S.uuid', 'inner');
+        // $this->db->join('tbl_wali_kelas W', 'W.kelas = S.kelas', 'inner');
+        // $this->db->where('W.uuid', $uuid);
+        // $this->db->like('alasan', $search);
+        // $result = $this->db->count_all_results();
+        $this->db->select('*');
+        $this->db->from('tbl_perizinan P');
+        $this->db->join('tbl_siswa S', 'P.uuid = S.uuid');
+        $this->db->join('tbl_wali_kelas W', 'W.kelas = S.kelas');
+        $this->db->where('W.uuid', $uuid);
+        if ($search != "") {
+            $this->db->like('alasan', $search);
+        }
+        $result = $this->db->count_all_results();
 
         return $result;
     }
     public function get_izin_count_wakel_unread($uuid, $search = "")
     {
-        $result = $this->db->query('SELECT COUNT(*) total FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND P.konfirmasiWakel = 0 AND W.uuid = "' . $uuid . '";');
+        $result = $this->db->query('SELECT COUNT(*) total FROM tbl_perizinan P, tbl_wali_kelas W, tbl_siswa S WHERE W.kelas = S.kelas AND P.uuid = S.uuid AND P.konfirmasiWakel = 0 AND W.uuid = "' . $uuid . '" AND alasan LIKE "' . $search . '" ;');
 
 
         $result = $result->row();

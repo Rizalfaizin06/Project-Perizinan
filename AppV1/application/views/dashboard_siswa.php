@@ -37,15 +37,17 @@
                 <img class="rounded-full w-28 h-28 shadow" src="<?= base_url() ?>dist/images/avatar/<?= $avatar ?>">
             </div>
         </div>
+
         <div class="p-5 space-y-4 grid grid-cols-1 justify-items-center ">
             <div class="w-full max-w-md">
                 <h4 class="text-3xl font-bold font-poppins justify-self-start text-cyan-500">Menu</h4>
             </div>
-            <div class="grid m-0 grid-cols-2 gap-3 justify-center items-center w-full max-w-md">
+            <div class="grid m-0 grid-cols-1 gap-3 justify-center items-center w-full max-w-md">
+
 
                 <a href="<?= base_url() ?>dashboard/add_perizinan">
-                    <div
-                        class="bg-gradient-to-r from-cyan-500 to-blue-500 opacity-50 rounded-3xl grid grid-cols-1 justify-items-center align-items-center place-content-center gap-2 aspect-square">
+                    <div class=" bg-gradient-to-r from-cyan-500 to-blue-500 opacity-50 rounded-3xl grid grid-cols-1
+                    justify-items-center align-items-center place-content-center gap-2 p-5">
                         <div class="h-2/5 w-2/5 justify-items-center grid">
                             <img class="" src="<?= base_url() ?>dist/images/icons/scan.png">
                         </div>
@@ -56,7 +58,7 @@
                 </a>
                 <a href="<?= base_url() ?>dashboard/perizinan">
                     <div class=" bg-gradient-to-r from-cyan-500 to-blue-500 opacity-50 rounded-3xl grid grid-cols-1
-                    justify-items-center align-items-center place-content-center gap-2 aspect-square">
+                    justify-items-center align-items-center place-content-center gap-2 p-5">
                         <div class="h-2/5 w-2/5 justify-items-center grid">
                             <img class="" src="<?= base_url() ?>dist/images/icons/verification.png">
                         </div>
@@ -65,10 +67,17 @@
                         </p>
                     </div>
                 </a>
+
+            </div>
+            <div class="grid m-0 grid-cols-1 gap-3 justify-center items-center w-full max-w-md">
+
+
+
                 <a href="<?php echo site_url('auth/logout'); ?>"
                     class="col-span-2 px-7 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-opacity-80 text-sm font-poppins font-bold text-white text-center">
                     Logout
                 </a>
+
                 <div class="h-36 w-full"></div>
             </div>
 

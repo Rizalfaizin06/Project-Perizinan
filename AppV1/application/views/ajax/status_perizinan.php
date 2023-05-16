@@ -65,7 +65,7 @@
                 <script>
                     var qr = new QRCode(document.getElementById("qrcode<?= $status->perizinan_id ?>"), {
                     });
-                    qr.makeCode("<?= $status->perizinan_id ?>");
+                    qr.makeCode("<?= $encryptId ?>");
                 </script>
             </div>
         <?php elseif ($statValue == 50):
